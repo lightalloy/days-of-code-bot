@@ -21,12 +21,7 @@ Telegram::Bot::Client.run(token) do |bot|
     case message.text
     when '/start'
       response = "Hello, @#{message.from.username}"
-     # p message.chat.id
       bot.api.send_message(chat_id: message.chat.id, text: response)
-    when '/history'
-      # p message.chat.id
-      # messages = bot.api.get_history(chat_id: message.chat.id, limit: 5, offset: 100, max_id: 1)
-      # bot.api.send_message(messages)
     when '/stats'
       response = OverallStats.new(user_repo.stats).display
       bot.api.send_message(chat_id: message.chat.id, text: response)
