@@ -4,4 +4,8 @@ class Users < ROM::Relation[:sql]
   def by_telegram_id(telegram_id)
     where(telegram_id: telegram_id)
   end
+
+  def random
+    order { Sequel.lit('RANDOM()') }
+  end
 end

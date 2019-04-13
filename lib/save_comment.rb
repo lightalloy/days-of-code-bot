@@ -1,5 +1,5 @@
 class SaveComment
-  TAG = '#spring2019'.freeze
+  TAG = 'spring2019'.freeze
 
   def initialize(text, user_id, rom)
     @text = text

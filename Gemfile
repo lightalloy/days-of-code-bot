@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.6.1'
 
+gem 'faker'
+
 gem 'pg'
 gem 'pry', '~> 0.12.2'
 

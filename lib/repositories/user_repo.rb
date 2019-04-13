@@ -9,6 +9,10 @@ class UserRepo < ROM::Repository
     users.upsert(attrs)
   end
 
+  def random
+    users.random.to_a
+  end
+
   def by_telegram_id(id)
     users.by_telegram_id(id).to_a.first
   end
