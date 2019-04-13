@@ -11,5 +11,4 @@ gem 'rom'
 gem 'rom-sql'
 
 gem 'table_print'
-gem 'telegram-bot-ruby', path: '~/sites/telegram-bot-ruby'
-
+gem 'telegram-bot-ruby'
