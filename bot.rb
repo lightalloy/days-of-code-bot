@@ -23,6 +23,7 @@ end
 
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
+    next unless message.chat.id.to_s == ENV.fetch('CHAT_ID').to_s || !message.chat.id.to_s.start_with?('-')
     case message.text
     when '/start', '/start@days_of_code_bot'
       response = "Hello, @#{message.from.username}"
