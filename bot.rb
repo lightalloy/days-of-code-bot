@@ -2,6 +2,7 @@ require 'telegram/bot'
 require 'pry'
 require_relative 'boot'
 require_relative 'lib/views/overall_stats'
+require 'table_print'
 
 token = ENV.fetch('BOT_TOKEN')
 TAG = 'spring2019'.freeze
@@ -29,6 +30,9 @@ Telegram::Bot::Client.run(token) do |bot|
     when '/stats'
       response = OverallStats.new(user_repo.stats).display
       bot.api.send_message(chat_id: message.chat.id, text: response)
+    when '/table_stats'
+      response = "```\n#{TablePrint::Printer.new(user_repo.stats).table_print}\n```"
+      bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/recent", "/recent@days_of_code_bot"
       response = ChallengeCommentRepo.new(rom).recent.map(&:text).join("\n---------------------\n")
       bot.api.send_message(chat_id: message.chat.id, text: response)

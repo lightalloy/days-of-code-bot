@@ -21,8 +21,9 @@ class UserRepo < ROM::Repository
     users.where(conditions)
   end
 
+  # TODO: move the "view" logic out of the repo
   def stats
-    users.stats
+    users.stats.to_a.map { |row| { name: (row.fullname || row.username).strip, progress: "#{'+' * row.count } (#{row.count})" } }
   end
 
   def all

@@ -10,7 +10,6 @@ class OverallStats
       pluses = '+' * row.count
       text += "#{name.strip}: #{pluses} (#{row.count})\n"
     end
-    text
   end
 
   private

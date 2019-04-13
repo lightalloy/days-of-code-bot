@@ -97,6 +97,7 @@ GEM
       rom-core (~> 4.1)
       sequel (>= 4.49)
     sequel (5.19.0)
+    table_print (1.5.6)
     thread_safe (0.3.6)
     transproc (1.0.3)
     virtus (1.0.5)
@@ -115,6 +116,7 @@ DEPENDENCIES
   rake
   rom
   rom-sql
+  table_print
   telegram-bot-ruby!
 
 RUBY VERSION
