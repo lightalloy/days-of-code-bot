@@ -10,6 +10,7 @@ def rom
 
   config = ROM::Configuration.new(:sql, ENV.fetch('DATABASE_URL'), { encoding: 'UTF8' })
   config.register_relation(Users)
+  config.register_relation(ChallengeComments)
   @rom = ROM.container(config)
 end
 
@@ -37,7 +38,14 @@ Telegram::Bot::Client.run(token) do |bot|
     when '/help', "/help@days_of_code_bot"
       bot.api.send_message(chat_id: message.chat.id, text: "Команды: /reg , /help, /users, /start")
     when /^(\s*)\#spring2019(.+)$/
-      bot.api.send_message(chat_id: message.chat.id, text: "Молодец, #{message.from.first_name}")
+      user = UserRepo.new(rom).by_telegram_id(message.from.id)
+      if user.nil?
+        response = "Похоже, ты ещё не записалась на марафон"
+      else
+        result = SaveComment.call(message.text, user.id, rom)
+        response = result.nil? ? 'Ошибка =(' : "Молодец, #{message.from.first_name}"
+      end
+      bot.api.send_message(chat_id: message.chat.id, text: response)
     when /^(\s*)\@days_of_code_bot(.+)$/
       bot.api.send_message(chat_id: message.chat.id, text: "Спасибо, #{message.from.first_name} 💙")
     else

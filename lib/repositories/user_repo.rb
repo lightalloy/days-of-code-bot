@@ -9,6 +9,10 @@ class UserRepo < ROM::Repository
     users.upsert(attrs)
   end
 
+  def by_telegram_id(id)
+    users.by_telegram_id(id).to_a.first
+  end
+
   def query(conditions)
     users.where(conditions)
   end
