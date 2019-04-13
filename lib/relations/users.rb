@@ -1,5 +1,9 @@
 class Users < ROM::Relation[:sql]
-  schema :users, infer: true
+  schema :users, infer: true do
+    associations do
+      has_many :challenge_comments
+    end
+  end
 
   def by_telegram_id(telegram_id)
     where(telegram_id: telegram_id)
@@ -7,5 +11,11 @@ class Users < ROM::Relation[:sql]
 
   def random
     order { Sequel.lit('RANDOM()') }
+  end
+
+  def stats
+    select(:id, :username, :fullname, challenge_comments[:id].func { int::count(id).as(:count) }).
+    left_join(challenge_comments).
+    group(:id)
   end
 end

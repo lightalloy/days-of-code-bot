@@ -21,6 +21,10 @@ class UserRepo < ROM::Repository
     users.where(conditions)
   end
 
+  def stats
+    users.stats
+  end
+
   def all
     users
   end
