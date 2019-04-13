@@ -1,7 +1,6 @@
 require 'telegram/bot'
 require 'pry'
 require_relative 'boot'
-require_relative 'lib/views/overall_stats'
 require 'table_print'
 require 'yaml'
 
@@ -27,9 +26,6 @@ Telegram::Bot::Client.run(token) do |bot|
     when '/start', '/start@days_of_code_bot'
       response = "Hello, @#{message.from.username}"
       bot.api.send_message(chat_id: message.chat.id, text: response)
-    when '/stats', '/stats@days_of_code_bot'
-      response = OverallStats.new(user_repo.stats).display
-      bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/table_stats', '/table_stats@days_of_code_bot'
       response = "```\n#{TablePrint::Printer.new(user_repo.stats).table_print}\n```"
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
@@ -45,8 +41,6 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/help', '/help@days_of_code_bot'
       bot.api.send_message(chat_id: message.chat.id, text: help_text)
-    when '/stats', 'stats@days_of_code_bot'
-      bot.api.send_message(chat_id: message.chat.id, text: 'Статистика')
     when /^(\s*)\#spring2019(.+)$/
       user = user_repo.by_telegram_id(message.from.id)
       if user.nil?
