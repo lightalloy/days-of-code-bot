@@ -1,34 +1,49 @@
- require 'telegram/bot'
+require 'telegram/bot'
 require 'pry'
+require_relative 'boot'
 
 token = ENV.fetch('BOT_TOKEN')
 TAG = 'spring2019'.freeze
+
+def rom
+  return @rom if @rom
+
+  config = ROM::Configuration.new(:sql, ENV.fetch('DATABASE_URL'), { encoding: 'UTF8' })
+  config.register_relation(Users)
+  @rom = ROM.container(config)
+end
 
 Telegram::Bot::Client.run(token) do |bot|
   # bot.api.send_message(chat_id: 150898013, text: "Hi")
   bot.listen do |message|
     case message.text
     when '/start'
+      response = "hello\n world \n #{message.from.first_name}"
      # p message.chat.id
-      bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
+      bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/history'
       # p message.chat.id
       # messages = bot.api.get_history(chat_id: message.chat.id, limit: 5, offset: 100, max_id: 1)
       # bot.api.send_message(messages)
-    when "/reg"
-      bot.api.send_message(chat_id: message.chat.id, text: "Спасибо, #{message.from.first_name}, вы записаны")
-    when '/help'
-      bot.api.send_message(chat_id: message.chat.id, text: "Команды: /reg , /help")
+    when "/reg", "/reg@days_of_code_bot"
+      # result = OpenStruct.new(success?: true)
+      result = RegisterUser.call(message.from, rom)
+      response = result.success? ? "Спасибо, #{message.from.first_name}, вы записаны" : "#{message.from.first_name}, похоже, ты уже была записана"
+      bot.api.send_message(chat_id: message.chat.id, text: response)
+    when "/users", "/users@days_of_code_bot"
+      response = UserRepo.new(rom).all.to_a.map(&:username).join("\n")
+      bot.api.send_message(chat_id: message.chat.id, text: response)
+      # UserRepo.new.all.to_a.map(&:username).join("/n")
+    when '/help', "/help@days_of_code_bot"
+      bot.api.send_message(chat_id: message.chat.id, text: "Команды: /reg , /help, /users, /start")
     when /^(\s*)\#spring2019(.+)$/
       bot.api.send_message(chat_id: message.chat.id, text: "Молодец, #{message.from.first_name}")
     when /^(\s*)\@days_of_code_bot(.+)$/
       bot.api.send_message(chat_id: message.chat.id, text: "Спасибо, #{message.from.first_name} 💙")
     else
-      binding.pry
       p message.text
     end
   end
 end
-
 
 
