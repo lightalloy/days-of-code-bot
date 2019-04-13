@@ -13,10 +13,6 @@ class ChallengeCommentRepo < ROM::Repository
     challenge_comments.random.to_a
   end
 
-  # def stats
-  #   challenge_comments.counts_by_user.to_a
-  # end
-
   def all
     challenge_comments.to_a
   end
