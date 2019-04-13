@@ -21,6 +21,9 @@ Telegram::Bot::Client.run(token) do |bot|
       # p message.chat.id
       # messages = bot.api.get_history(chat_id: message.chat.id, limit: 5, offset: 100, max_id: 1)
       # bot.api.send_message(messages)
+    when "/recent", "/recent@days_of_code_bot"
+      response = ChallengeCommentRepo.new(rom).recent.map(&:text).join("\n---------------------\n")
+      bot.api.send_message(chat_id: message.chat.id, text: response)
     when "/reg", "/reg@days_of_code_bot"
       # result = OpenStruct.new(success?: true)
       result = RegisterUser.call(message.from, rom)
@@ -31,7 +34,7 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: response)
       # UserRepo.new.all.to_a.map(&:username).join("/n")
     when '/help', "/help@days_of_code_bot"
-      bot.api.send_message(chat_id: message.chat.id, text: 'Команды: /reg , /help, /users, /start')
+      bot.api.send_message(chat_id: message.chat.id, text: 'Команды: /reg , /help, /users, /start, /recent')
     when '/stats', 'stats@days_of_code_bot'
       bot.api.send_message(chat_id: message.chat.id, text: 'Статистика')
     when /^(\s*)\#spring2019(.+)$/

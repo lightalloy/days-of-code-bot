@@ -5,6 +5,10 @@ class ChallengeCommentRepo < ROM::Repository
     challenge_comments.changeset(:create, attrs).commit
   end
 
+  def recent
+    challenge_comments.ordered_by_date.limit(20).to_a
+  end
+
   def random
     challenge_comments.random.to_a
   end
