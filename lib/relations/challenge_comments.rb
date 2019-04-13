@@ -9,6 +9,9 @@ class ChallengeComments < ROM::Relation[:sql]
     order { date.desc }
   end
 
+  def stats_by_user(user_id)
+    select(:date, :id).where(user_id: user_id).order { date }
+  end
   # def counts_by_user
   #   select { [user_id, int::count(id).as(:count)] }.group(:user_id)
   # end

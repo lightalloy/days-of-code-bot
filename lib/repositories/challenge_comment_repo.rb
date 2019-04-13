@@ -13,6 +13,10 @@ class ChallengeCommentRepo < ROM::Repository
     challenge_comments.random.to_a
   end
 
+  def stats_by_user(user_id)
+    challenge_comments.stats_by_user(user_id).to_a.map(&:date).uniq
+  end
+
   def all
     challenge_comments.to_a
   end

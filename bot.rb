@@ -6,6 +6,7 @@ require 'yaml'
 
 token = ENV.fetch('BOT_TOKEN')
 TAG = 'spring2019'.freeze
+DATES = (Date.parse('1.04.2019')..Date.parse('14.04.2019')).freeze
 
 def rom
   @rom ||= RomContainer.instance
@@ -28,6 +29,18 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/table_stats', '/table_stats@days_of_code_bot'
       response = "```\n#{TablePrint::Printer.new(user_repo.stats).table_print}\n```"
+      bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
+    when '/my_stats', '/my_stats@days_of_code_bot'
+      user = user_repo.by_telegram_id(message.from.id)
+      if user.nil?
+        response = 'Похоже, ты ещё не записалась на марафон'
+      else
+        comment_dates = ChallengeCommentRepo.new(rom).stats_by_user(user.id)
+        table = DATES.each_with_object([]) do |date, arr|
+          arr.push({ date: date.strftime('%d.%m'), value: (comment_dates.include?(date) ? '+' : '-') })
+        end
+        response = "```\n#{TablePrint::Printer.new(table).table_print}\n```"
+      end
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/recent", '/recent@days_of_code_bot'
       response = ChallengeCommentRepo.new(rom).recent.map(&:text).join("\n---------------------\n")
