@@ -12,7 +12,6 @@ class SaveComment
   end
 
   def call
-    binding.pry
     repo.create(attributes)
   end
 

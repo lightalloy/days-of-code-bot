@@ -1,8 +1,16 @@
 class ChallengeComments < ROM::Relation[:sql]
-  schema :challenge_comments, infer: true
+  schema :challenge_comments, infer: true do
+    associations do
+      belongs_to :user
+    end
+  end
 
   def random
     order { Sequel.lit('RANDOM()') }
+  end
+
+  def recent
+    select(users[:fullname], :text).left_join(users)
   end
 
   def ordered_by_date

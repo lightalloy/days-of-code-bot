@@ -44,8 +44,10 @@ Telegram::Bot::Client.run(token) do |bot|
       end
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/recent", '/recent@days_of_code_bot'
-      response = ChallengeCommentRepo.new(rom).recent.map(&:text).join("\n---------------------\n")
-      bot.api.send_message(chat_id: message.chat.id, text: response)
+      # response = ChallengeCommentRepo.new(rom).recent.map(&:text).join("\n---------------------\n")
+      comments = ChallengeCommentRepo.new(rom).recent
+      response = "```\n#{TablePrint::Printer.new(comments).table_print}\n```"
+      bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/reg", '/reg@days_of_code_bot'
       result = RegisterUser.call(message.from, rom)
       response = result.success? ? "Спасибо, #{message.from.first_name}, записываю 📝" : "#{message.from.first_name}, похоже, ты уже была записана"
