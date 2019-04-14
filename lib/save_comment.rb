@@ -12,6 +12,7 @@ class SaveComment
   end
 
   def call
+    binding.pry
     repo.create(attributes)
   end
 
@@ -24,7 +25,7 @@ class SaveComment
       user_id: user_id,
       tag: TAG,
       date: Date.today,
-      text: text.gsub('##{TAG}', '')
+      text: text.gsub("##{TAG}", '').strip
     }
   end
 
