@@ -53,7 +53,8 @@ Telegram::Bot::Client.run(token) do |bot|
       response = result.success? ? "Спасибо, #{message.from.first_name}, записываю 📝" : "#{message.from.first_name}, похоже, ты уже была записана"
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when "/users", '/users@days_of_code_bot'
-      response = user_repo.all.to_a.map(&:username).join("\n")
+      response = user_repo.all.to_a.map(&:fullname).join("\n")
+      response = 'Пока никого нет' if response.to_s.empty?
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/help', '/help@days_of_code_bot'
       bot.api.send_message(chat_id: message.chat.id, text: help_text)
