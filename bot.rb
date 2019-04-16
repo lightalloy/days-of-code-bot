@@ -17,7 +17,7 @@ def user_repo
 end
 
 def help_text
-  texts = YAML.load_file('locales/ru.yml')
+  texts = YAML.load_file("#{__dir__}/locales/ru.yml")
   texts.fetch('ru').fetch('help')
 end
 
