@@ -7,6 +7,7 @@ set :repo_url, "git@github.com:lightalloy/days-of-code-bot.git"
 set :user, 'light'
 
 set :deploy_to, '/home/light/sites/days-of-code-bot'
+set :rbenv_path, '/home/light/.rbenv/'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -48,7 +49,11 @@ server 's3n.su', user: 'light', roles: %w[web app db]
 # set :ssh_options, verify_host_key: :secure
 
 namespace :deploy do
-  task :migrate do
-    puts "    not doing migrate because not a Rails application."
+  task :bundle do
+    on roles(:app) do
+      execute "cd #{deploy_to}/current && #{fetch(:rbenv_path)}shims/bundle install"
+    end
   end
 end
+
+after "deploy:symlink:release", "deploy:bundle"
