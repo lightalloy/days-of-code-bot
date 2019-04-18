@@ -29,6 +29,7 @@ Telegram::Bot::Client.run(token) do |bot|
       response = "Hello, @#{message.from.username}"
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/table_stats', '/table_stats@days_of_code_bot'
+      next unless user_repo.by_telegram_id(message.from.id)
       response = "```\n#{TablePrint::Printer.new(user_repo.stats).table_print}\n```"
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when '/my_stats', '/my_stats@days_of_code_bot'
@@ -49,6 +50,7 @@ Telegram::Bot::Client.run(token) do |bot|
       response = "```\n#{TablePrint::Printer.new(comments).table_print}\n```"
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/reg", '/reg@days_of_code_bot'
+      next unless message.chat.id.to_s == ENV.fetch('CHAT_ID').to_s
       result = RegisterUser.call(message.from, rom)
       response = result.success? ? "Спасибо, #{message.from.first_name}, записываю 📝" : "#{message.from.first_name}, похоже, ты уже была записана"
       bot.api.send_message(chat_id: message.chat.id, text: response)
@@ -58,10 +60,12 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when '/help', '/help@days_of_code_bot'
       bot.api.send_message(chat_id: message.chat.id, text: help_text)
-    when /^(\s*)\#spring2019(.+)$/
+    when /^(.*)\#spring2019(.*)$/
       user = user_repo.by_telegram_id(message.from.id)
       if user.nil?
         response = 'Похоже, ты ещё не записалась на марафон'
+      elsif message.text.strip.length == 11
+        response = 'Нужно всё-таки что-то сделать'
       else
         result = SaveComment.call(message.text, user.id, rom)
         response = result.nil? ? 'Ошибка =(' : "Молодец, #{message.from.first_name}"
