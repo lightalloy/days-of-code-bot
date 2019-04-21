@@ -6,7 +6,8 @@ require 'yaml'
 
 token = ENV.fetch('BOT_TOKEN')
 TAG = 'spring2019'.freeze
-DATES = (Date.parse('1.04.2019')..Date.parse('14.04.2019')).freeze
+
+DATES = (Date.parse(ENV.fetch('DATE_START'))..Date.parse(ENV.fetch('DATE_END'))).freeze
 
 def rom
   @rom ||= RomContainer.instance

@@ -12,7 +12,7 @@ end
 
 OPTIONS = ['learned', 'solved katas in', 'developed an app in', 'hanged out with']
 
-Date.parse('1.04.2019').upto(Date.today) do |date|
+Date.parse(ENV.fetch('DATE_START')).upto(ENV.fetch('DATE_END')) do |date|
   user_repo.random[0, 7].each do |user|
     opt = OPTIONS.sample
     subject = opt == 'hanged out with' ? Faker::ProgrammingLanguage.creator : Faker::ProgrammingLanguage.name
