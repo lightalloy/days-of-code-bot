@@ -34,8 +34,8 @@ If you send a pull request, do it against the master branch. For our branches we
 5) To prevent problems with connection to Telegram API, before bot launch you need to start some preventing online restrictions tool.
 
 You can launch the app in one of two ways:
-1. ```bundle exec ruby bot_control.rb start``` (w/o console output)
-2. ```bundle exec ruby bot.rb```
+1. `bundle exec ruby bot_control.rb start` (w/o console output)
+2. `bundle exec ruby bot.rb`
 
 #### Creating your own test bot
 
@@ -47,7 +47,9 @@ Open Telegram, add bot [@BotPhaser](https://telegram.me/BotFather), and create a
 etc. Finally, you'll receive Your API-token from bot_father : XXXXXXXXX:YYYYYYY-YYYYYYYYYYYYYYYYY_YY. 
 To get chat id you may do the following. On private chat with your bot, send a random message. You will search this message later. Then, on your browser make a request with url:
 
-```https://api.telegram.org/botXXXXXXXXX:YYYYYYY-YYYYYYYYYYYYYYYYY_YY/getUpdates```
+```
+https://api.telegram.org/botXXXXXXXXX:YYYYYYY-YYYYYYYYYYYYYYYYY_YY/getUpdates
+```
 
 The request returns a json response, in json text search your random message and get chat id in that object.
 
