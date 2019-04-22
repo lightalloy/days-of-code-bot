@@ -10,14 +10,14 @@ The challenges are inspired by the [100 days of code project](https://www.100day
 
 ## Contributing
 
-We are using [GitHub Issues](https://github.com/lightalloy/days-of-code-bot/issues) for our public bugs. If somebody claims an issue but doesn’t follow up for more than two weeks, it’s fine to take it over but you should still leave a comment.
+We are using [GitHub Issues](https://github.com/lightalloy/days-of-code-bot/issues) for our public bugs and features. If somebody claims an issue but doesn’t follow up for more than two weeks, it’s fine to take it over but you should still leave a comment.
 
-If you send a pull request, do it against the master branch. For our branches we are using a scheme of (github issue key)-(optional desc/keyword), .e.g. ```34-blah_blah```. We also use this scheme at the beginning of commit message.
+If you send a pull request, do it against the master branch. For our branches we are using a scheme of (github issue key)-(desc/keyword), .e.g. ```34-blah_blah```. Also, please, reference the github issue key in the commit message and in the pull request name and description.
 
 ## Installation
 
 #### Prerequisites
-+ You have Ruby 2.5.5 installed. You can use [rbenv](https://github.com/rbenv/rbenv) to pick a right version for this application.
++ You have installed Ruby. Look for the required version in the file .ruby-version. You can use [rbenv](https://github.com/rbenv/rbenv) to pick a right version for this application.
 + You have installed [bundler](https://bundler.io/)
 
 #### Development Workflow
@@ -28,13 +28,13 @@ If you send a pull request, do it against the master branch. For our branches we
 
 3) Create postgres database, e.g. name it telegram_bot (see example below)
 
-4) Set environment variables DATABASE_URL, BOT_TOKEN and CHAT_ID. You can add them to .bash_profile, e.g.
-```echo 'export DATABASE_URL="postgresql://localhost/telegram_bot?pool=5"' >> ~/.bash_profile```. This will execute it and add the path: ```source ~/.bash_profile```
+4) Set environment variables DATABASE_URL, BOT_TOKEN, CHAT_ID, DATE_START and DATE_END. If you use [rbenv](https://github.com/rbenv/rbenv) to manage Ruby versions, use [rbenv-vars](https://github.com/rbenv/rbenv-vars) to set the variables. Otherwise, you can edit .bash_profile, e.g.
+`echo 'export DATABASE_URL="postgresql://localhost/telegram_bot?pool=5"' >> ~/.bash_profile`. This will execute it and add the path: `source ~/.bash_profile`.
 
 5) To prevent problems with connection to Telegram API, before bot launch you need to start some preventing online restrictions tool.
 
 You can launch the app in one of two ways:
-1. ```bundle exec ruby bot_control.rb start``` (with console output)
+1. ```bundle exec ruby bot_control.rb start``` (w/o console output)
 2. ```bundle exec ruby bot.rb```
 
 #### Creating your own test bot
@@ -56,4 +56,12 @@ The request returns a json response, in json text search your random message and
 ```
 psql postgres
 create database telegram_bot;
+```
+There's also a need to run migrations:
+```
+bundle exec rake db:migrate
+```
+And optional seeds:
+```
+bundle exec ruby db/seeds.rb
 ```
