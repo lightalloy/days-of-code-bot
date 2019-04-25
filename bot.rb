@@ -1,5 +1,4 @@
 require 'telegram/bot'
-require 'pry'
 require_relative 'boot'
 require 'table_print'
 require 'yaml'
