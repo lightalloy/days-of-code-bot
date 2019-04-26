@@ -1,7 +1,8 @@
 require 'bundler/setup'
 require_relative 'config/config'
-require 'rom-sql'
-require 'pry'
+
+Bundler.require(:default, DaysOfCode::Config.env)
+
 require_relative 'lib/repositories/user_repo'
 require_relative 'lib/repositories/challenge_comment_repo'
 require_relative 'lib/relations/users'

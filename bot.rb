@@ -1,6 +1,5 @@
-require 'telegram/bot'
 require_relative 'boot'
-require 'table_print'
+require 'telegram/bot'
 require 'yaml'
 
 token = ENV.fetch('BOT_TOKEN')
