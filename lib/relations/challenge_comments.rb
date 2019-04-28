@@ -17,6 +17,10 @@ class ChallengeComments < ROM::Relation[:sql]
     order { date.desc }
   end
 
+  def ordered_by_created_at
+    order { created_at.desc }
+  end
+
   def stats_by_user(user_id)
     select(:date, :id).where(user_id: user_id).order { date }
   end
