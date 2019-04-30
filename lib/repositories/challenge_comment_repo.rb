@@ -6,7 +6,7 @@ class ChallengeCommentRepo < ROM::Repository
   end
 
   def recent
-    challenge_comments.recent.ordered_by_created_at.limit(20).to_a
+    challenge_comments.recent.limit(20).to_a
   end
 
   def random
