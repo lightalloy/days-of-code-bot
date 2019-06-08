@@ -50,7 +50,7 @@ GEM
     ice_nine (0.11.2)
     inflecto (0.0.2)
     method_source (0.9.2)
-    multipart-post (2.0.0)
+    multipart-post (2.1.1)
     pg (1.1.4)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -91,7 +91,7 @@ GEM
       sequel (>= 4.49)
     sequel (5.19.0)
     table_print (1.5.6)
-    telegram-bot-ruby (0.8.6.1)
+    telegram-bot-ruby (0.10.1)
       faraday
       inflecto
       virtus
