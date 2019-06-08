@@ -1,4 +1,4 @@
-module DaysOfCodeBot
+module DaysOfCode
   class FaradayAdapter < Faraday::Adapter::NetHttp
     def net_http_connection(env)
       client = if proxy?
