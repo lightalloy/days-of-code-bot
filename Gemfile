@@ -9,7 +9,7 @@ gem 'rom'
 gem 'rom-sql'
 
 gem 'table_print'
-gem 'telegram-bot-ruby'
+gem 'telegram-bot-ruby', require: 'telegram/bot'
 
 group :development, :test do
   gem 'faker'

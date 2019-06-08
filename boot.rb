@@ -1,6 +1,5 @@
 require 'bundler/setup'
 require_relative 'config/config'
-require 'telegram/bot'
 
 Bundler.require(:default, DaysOfCode::Config.env)
 
