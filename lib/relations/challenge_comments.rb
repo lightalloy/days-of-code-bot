@@ -10,11 +10,7 @@ class ChallengeComments < ROM::Relation[:sql]
   end
 
   def recent
-    select(users[:fullname], :text).left_join(users)
-  end
-
-  def ordered_by_date
-    order { date.desc }
+    select(users[:fullname], :text).left_join(users).order { created_at.desc }
   end
 
   def stats_by_user(user_id)

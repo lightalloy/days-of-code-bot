@@ -23,6 +23,7 @@ class SaveComment
     {
       user_id: user_id,
       tag: TAG,
+      created_at: Time.now,
       date: Date.today,
       text: text.gsub("##{TAG}", '').strip
     }
