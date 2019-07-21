@@ -15,3 +15,7 @@ group :development, :test do
   gem 'faker'
   gem 'pry', '~> 0.12.2'
 end
+
+group :test do
+  gem 'rspec'
+end
