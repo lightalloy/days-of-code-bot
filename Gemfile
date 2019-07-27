@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 ruby '2.5.5'
 
 gem 'daemons'
+gem 'dotenv', '~> 2.7.4'
+gem 'dry-system', '~> 0.12.0'
+
 gem 'pg'
 
 gem 'rake'

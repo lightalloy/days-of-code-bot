@@ -14,7 +14,7 @@ class Users < ROM::Relation[:sql]
   end
 
   def stats
-    select(:id, :username, :fullname, challenge_comments[:id].func { int::count(id).as(:count) }).
+    select(:id, :username, :fullname, challenge_comments[:id].func { integer::count(id).as(:count) }).
     left_join(challenge_comments).
     group(:id)
   end

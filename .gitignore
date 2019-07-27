@@ -2,3 +2,4 @@ TODO.md
 NOTES.md
 .rbenv-vars
 tmp/
+.env.*

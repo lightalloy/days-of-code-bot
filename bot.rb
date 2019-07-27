@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative 'system/boot'
 require 'yaml'
 
 token = ENV.fetch('BOT_TOKEN')
@@ -6,12 +6,16 @@ TAG = 'spring2019'.freeze
 
 DATES = (Date.parse(ENV.fetch('DATE_START'))..Date.parse(ENV.fetch('DATE_END'))).freeze
 
-def rom
-  @rom ||= RomContainer.instance
-end
+# def rom
+#   @rom ||= RomContainer.instance
+# end
 
 def user_repo
-  @user_repo ||= UserRepo.new(rom)
+  @user_repo ||= Repositories::UserRepo.new
+end
+
+def challenge_comments_repo
+  @challenge_comments_repo ||= Repositories::ChallengeCommentRepo.new
 end
 
 def help_text
@@ -35,7 +39,7 @@ Telegram::Bot::Client.run(token) do |bot|
       if user.nil?
         response = 'Похоже, ты ещё не записалась на марафон'
       else
-        comment_dates = ChallengeCommentRepo.new(rom).stats_by_user(user.id)
+        comment_dates = challenge_comments_repo.stats_by_user(user.id)
         table = DATES.each_with_object([]) do |date, arr|
           arr.push({ date: date.strftime('%d.%m'), value: (comment_dates.include?(date) ? '+' : '-') })
         end
@@ -44,12 +48,12 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/recent", '/recent@days_of_code_bot'
       # response = ChallengeCommentRepo.new(rom).recent.map(&:text).join("\n---------------------\n")
-      comments = ChallengeCommentRepo.new(rom).recent
+      comments = challenge_comments_repo.recent
       response = "```\n#{TablePrint::Printer.new(comments).table_print}\n```"
       bot.api.send_message(chat_id: message.chat.id, text: response, parse_mode: 'markdown')
     when "/reg", '/reg@days_of_code_bot'
-      next unless message.chat.id.to_s == ENV.fetch('CHAT_ID').to_s
-      result = RegisterUser.call(message.from, rom)
+      # next unless message.chat.id.to_s == ENV.fetch('CHAT_ID').to_s
+      result = RegisterUser.call(message.from)
       response = result.success? ? "Спасибо, #{message.from.first_name}, записываю 📝" : "#{message.from.first_name}, похоже, ты уже была записана"
       bot.api.send_message(chat_id: message.chat.id, text: response)
     when "/users", '/users@days_of_code_bot'
@@ -65,7 +69,7 @@ Telegram::Bot::Client.run(token) do |bot|
       elsif message.text.strip.length == 11
         response = 'Нужно всё-таки что-то сделать'
       else
-        result = SaveComment.call(message.text, user.id, rom)
+        result = SaveComment.call(message.text, user.id)
         response = result.nil? ? 'Ошибка =(' : "Молодец, #{message.from.first_name}"
       end
       bot.api.send_message(chat_id: message.chat.id, text: response)
