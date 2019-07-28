@@ -21,6 +21,6 @@ RSpec.describe RegisterUser do
   end
 
   it "registers a user" do
-    described_class.
+    described_class
   end
 end
