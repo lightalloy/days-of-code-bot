@@ -19,7 +19,6 @@ Import = Application.injector
 ArgsImport = Import.args
 
 Dir.glob(root.join('system/boot/*.rb')).each { |f| require f }
-# Dir.glob(root.join('app/*.rb')).each { |f| require f }
 
 Faraday::Adapter.register_middleware days_of_code_adapter: DaysOfCode::FaradayAdapter
 

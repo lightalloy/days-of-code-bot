@@ -5,8 +5,6 @@ Application.boot(:rom) do |app|
   end
 
   start do
-    # configuration.auto_registration(app.root.join('lib/persistence'), namespace: false)
-
     config = ROM::Configuration.new(:sql, ENV.fetch('DATABASE_URL'), { encoding: 'UTF8' })
     config.auto_registration(app.root.join('lib'), namespace: false)
 

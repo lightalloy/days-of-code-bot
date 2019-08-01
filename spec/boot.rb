@@ -23,10 +23,4 @@ ArgsImport = Import.args
 
 require root.join('system/boot/rom.rb')
 
-# Faraday::Adapter.register_middleware days_of_code_adapter: DaysOfCode::FaradayAdapter
-
-# Telegram::Bot.configure do |config|
-#   config.adapter = :days_of_code_adapter
-# end
-
 Application.finalize!
