@@ -1,10 +1,12 @@
 class SaveComment
+  include Import[repo: 'repositories.challenge_comment_repo']
+
   TAG = 'spring2019'.freeze
 
-  def initialize(text, user_id, rom)
+  def initialize(text:, user_id:, **deps)
     @text = text
     @user_id = user_id
-    @rom = rom
+    super(deps)
   end
 
   def self.call(*args)
@@ -12,12 +14,12 @@ class SaveComment
   end
 
   def call
-    repo.create(attributes)
+    repo.create attributes
   end
 
   private
 
-  attr_reader :text, :user_id, :rom
+  attr_reader :text, :user_id
 
   def attributes
     {
@@ -27,9 +29,5 @@ class SaveComment
       date: Date.today,
       text: text.gsub("##{TAG}", '').strip
     }
-  end
-
-  def repo
-    ChallengeCommentRepo.new(rom)
   end
 end
