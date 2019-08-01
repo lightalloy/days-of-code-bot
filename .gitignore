@@ -2,4 +2,5 @@ TODO.md
 NOTES.md
 .rbenv-vars
 tmp/
-.env.*
+.env.test
+.env.development
