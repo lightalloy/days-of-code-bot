@@ -3,7 +3,7 @@ ruby '2.5.5'
 
 gem 'daemons', '~> 1.3'
 gem 'dotenv', '~> 2.7'
-gem 'dry-system', '~> 0.12'
+gem 'dry-system', '~> 0.17'
 
 gem 'pg', '~> 1.2'
 
