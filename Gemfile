@@ -1,25 +1,25 @@
 source 'https://rubygems.org'
 ruby '2.5.5'
 
-gem 'daemons'
-gem 'dotenv', '~> 2.7.4'
-gem 'dry-system', '~> 0.12.0'
+gem 'daemons', '~> 1.3'
+gem 'dotenv', '~> 2.7'
+gem 'dry-system', '~> 0.17'
 
-gem 'pg'
+gem 'pg', '~> 1.2'
 
-gem 'rake'
-gem 'rom'
-gem 'rom-sql'
+gem 'rake', '~> 13.0'
+gem 'rom', '~> 5.2'
+gem 'rom-sql', '~> 3.2'
 
-gem 'table_print'
-gem 'telegram-bot-ruby', require: 'telegram/bot'
+gem 'table_print', '~> 1.5'
+gem 'telegram-bot-ruby', '~> 0.12', require: 'telegram/bot'
 
 group :development, :test do
-  gem 'faker'
-  gem 'pry', '~> 0.12.2'
+  gem 'faker', '~> 2.10'
+  gem 'pry', '~> 0.12'
 end
 
 group :test do
-  gem 'rspec'
-  gem 'database_cleaner'
+  gem 'rspec', '~> 3.9'
+  gem 'database_cleaner', '~> 1.8'
 end
